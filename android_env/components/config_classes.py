@@ -153,6 +153,20 @@ class FakeSimulatorConfig(SimulatorConfig):
   # The dimensions in pixels of the device screen (HxW).
   screen_dimensions: tuple[int, int] = (0, 0)
 
+@dataclasses.dataclass
+class RealDeviceConfig(SimulatorConfig):
+  device_name: str = None
+
+  """Config class for DeviceSimulator."""
+
+  # Configuration for talking to adb.
+  adb_controller: AdbControllerConfig = dataclasses.field(
+    default_factory=AdbControllerConfig
+  )
+  # Path to file which holds emulator logs. If not provided, it will be
+  # determined by the EmulatorLauncher.
+  logfile_path: str = ''
+
 
 @dataclasses.dataclass
 class TaskManagerConfig:
