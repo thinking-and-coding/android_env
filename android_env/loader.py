@@ -64,7 +64,7 @@ def load(config: config_classes.AndroidEnvConfig) -> environment.AndroidEnv:
 
   device_settings = device_settings_lib.DeviceSettings(simulator)
   coordinator = coordinator_lib.Coordinator(
-      simulator, task_manager, device_settings
+      simulator, task_manager, device_settings, config=config.coordinator
   )
   return environment.AndroidEnv(
       simulator=simulator, coordinator=coordinator, task_manager=task_manager

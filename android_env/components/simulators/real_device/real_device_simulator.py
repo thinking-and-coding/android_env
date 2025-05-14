@@ -7,6 +7,7 @@ from absl import logging
 
 from android_env.components import log_stream, adb_controller, config_classes, adb_log_stream
 from android_env.components.simulators import base_simulator
+from android_env.components import errors
 
 
 class RealDeviceSimulator(base_simulator.BaseSimulator):
@@ -52,7 +53,14 @@ class RealDeviceSimulator(base_simulator.BaseSimulator):
 
     def _launch_impl(self) -> None:
         logging.info("Launch device specific implementation.")
-        pass
+        cmd_output = self._adb_controller.execute_command(
+            ['devices'], device_specific=False)
+        cmd_str = cmd_output.decode('utf-8')
+        logging.info("Got devices: %r.",cmd_str)
+        if not self.adb_device_name() in cmd_str:
+            logging.info("Can not launch device: %r.", self.adb_device_name())
+            raise errors.SimulatorError()
+        logging.info("Launch device: %r success!", self.adb_device_name())
 
     def send_touch(self, touches: list[tuple[int, int, bool, int]]) -> None:
         """Sends a touch event to be executed on the simulator.
@@ -65,9 +73,11 @@ class RealDeviceSimulator(base_simulator.BaseSimulator):
                       2 is_down: Whether the finger is touching or not the screen.
                       3 identifier: Identifies a particular finger in a multitouch event.
                 """
-
+        if len(set([touch[3] for touch in touches])) > 1:
+            logging.warn("Only supported single touch in real device by adb!")
         for t in touches:
-            self._adb_controller.execute_command(['shell', 'input', 'tap', str(t[0]), str(t[1])])
+            if t[2]:
+                self._adb_controller.execute_command(['shell', 'input', 'tap', str(t[0]), str(t[1])])
 
     def send_key(self, keycode: np.int32, event_type: str) -> None:
         """Sends a key event to the device.
@@ -78,7 +88,7 @@ class RealDeviceSimulator(base_simulator.BaseSimulator):
                   event_type: Type of key event to be sent.
                 """
 
-        self._adb_controller.execute_command(['shell', 'input', 'keyboard', event_type, int(keycode)])
+        logging.warn("Dot not supported KeyboardEvent in real device by adb!")
 
     def _get_screenshot_impl(self) -> np.ndarray:
         """Fetches the latest screenshot from the device."""
