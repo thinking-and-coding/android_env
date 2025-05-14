@@ -48,7 +48,7 @@ class DeviceSimulatorTest(absltest.TestCase):
   def test_adb_device_name_not_empty(self):
       config = config_classes.RealDeviceConfig(
           device_name="172.16.116.186:5555",
-          adb_controller=config_classes.AdbControllerConfig(
+          adb_controller_config=config_classes.AdbControllerConfig(
               adb_path='/opt/homebrew/bin/adb',
               adb_server_port=5037,
           ),
@@ -61,7 +61,7 @@ class DeviceSimulatorTest(absltest.TestCase):
   def test_logfile_path(self, mock_open, unused_mock_exists):
       config = config_classes.RealDeviceConfig(
           device_name="172.16.116.186:5555",
-          adb_controller=config_classes.AdbControllerConfig(
+          adb_controller_config=config_classes.AdbControllerConfig(
               adb_path='/opt/homebrew/bin/adb',
               adb_server_port=5037,
           ),
@@ -77,7 +77,7 @@ class DeviceSimulatorTest(absltest.TestCase):
   def test_close(self):
       config = config_classes.RealDeviceConfig(
           device_name="172.16.116.186:5555",
-          adb_controller=config_classes.AdbControllerConfig(
+          adb_controller_config=config_classes.AdbControllerConfig(
               adb_path='/opt/homebrew/bin/adb',
               adb_server_port=5037,
           ),
@@ -95,7 +95,7 @@ class DeviceSimulatorTest(absltest.TestCase):
   def test_get_screenshot(self):
       config = config_classes.RealDeviceConfig(
           device_name="172.16.116.186:5555",
-          adb_controller=config_classes.AdbControllerConfig(
+          adb_controller_config=config_classes.AdbControllerConfig(
               adb_path='/opt/homebrew/bin/adb',
               adb_server_port=5037,
           ),

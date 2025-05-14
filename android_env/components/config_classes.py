@@ -160,7 +160,7 @@ class RealDeviceConfig(SimulatorConfig):
   """Config class for DeviceSimulator."""
 
   # Configuration for talking to adb.
-  adb_controller: AdbControllerConfig = dataclasses.field(
+  adb_controller_config: AdbControllerConfig = dataclasses.field(
     default_factory=AdbControllerConfig
   )
   # Path to file which holds emulator logs. If not provided, it will be
