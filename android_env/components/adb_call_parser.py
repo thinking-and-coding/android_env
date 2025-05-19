@@ -243,7 +243,7 @@ class AdbCallParser:
 
     response, _ = self._execute_command(
         ['shell', 'am', 'broadcast', '-a', send_broadcast.action]
-        + component_args,
+        + component_args + list(send_broadcast.extra_args or []),
         timeout=timeout,
     )
 

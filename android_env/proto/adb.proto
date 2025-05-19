@@ -57,6 +57,8 @@ message AdbRequest {
     // intent, such as com.example.app/.ExampleActivity (see -n specification at
     // https://developer.android.com/tools/adb#IntentSpec).
     string component = 2;
+
+    repeated string extra_args = 3;
   }
 
   message UninstallPackage {
